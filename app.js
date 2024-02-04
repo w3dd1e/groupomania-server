@@ -29,12 +29,12 @@ app.use((req, res, next) => {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-app.use("/api/auth", userRoutes);
-app.get("/api/sauces", sauceRoutes);
-app.get("/api/sauces/:id", sauceRoutes);
-app.post("/api/sauces", sauceRoutes);
-app.delete("/api/sauces/:id", sauceRoutes);
-app.put("/api/sauces/:id", sauceRoutes);
-app.post("/api/sauces/:id/like", likeRoutes);
+app.use("/auth", userRoutes);
+app.get("/posts", postRoutes);
+app.get("/posts/:id", postRoutes);
+app.post("/posts", postRoutes);
+app.delete("/posts/:id", postsRoutes);
+app.put("/posts/:id", sauceRoutes);
+app.post("/posts/:id/like", likeRoutes);
 
 module.exports = app;
