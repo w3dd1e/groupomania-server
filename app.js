@@ -5,6 +5,8 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const logger = require('morgan');
 const cors = require('cors');
+const pool = require('./database/db');
+
 const app = express();
 
 
@@ -18,12 +20,12 @@ app.use(cors()) //All CORS Requests
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-app.use("/auth", userRoutes);
+/*app.use("/auth", userRoutes);
 app.get("/posts", postRoutes);
 app.get("/posts/:id", postRoutes);
 app.post("/posts", postRoutes);
 app.delete("/posts/:id", postsRoutes);
 app.put("/posts/:id", sauceRoutes);
-app.post("/posts/:id/like", likeRoutes);
+app.post("/posts/:id/like", likeRoutes); */
 
 module.exports = app;
