@@ -7,6 +7,7 @@ const cors = require("cors");
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users.rt");
+const postsRouter = require("./routes/posts.rt");
 
 const app = express();
 
@@ -21,12 +22,12 @@ app.use("/auth", usersRouter);
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-/*
-app.get("/posts", postRoutes);
-app.get("/posts/:id", postRoutes);
-app.post("/posts", postRoutes);
-app.delete("/posts/:id", postsRoutes);
-app.put("/posts/:id", sauceRoutes);
-app.post("/posts/:id/like", likeRoutes); */
+
+app.get("/posts", postsRouter);
+app.get("/posts/:id", postsRouter);
+app.post("/posts", postsRouter);
+app.delete("/posts/:id", postsRouter);
+app.put("/posts/:id", postsRouter);
+// app.post("/posts/:id/like", likeRoutes);
 
 module.exports = app;
