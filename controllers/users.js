@@ -2,24 +2,26 @@ const pool = require('../database/db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-exports.signup = (req, res) => {
-	bcrypt.hash(req.body.password, 10).then((hash) => {
-		const user = new User({
-			email: req.body.email,
-			password: hash,
-		});
-		user.save()
-			.then(() => {
-				res.status(201).json({
-					message: 'User added successfully!',
-				});
-			})
-			.catch((error) => {
-				res.status(500).json({
-					error: error,
-				});
+exports.signup = async (req, res) => {
+	bcrypt
+		.hash(req.body.password, 10)
+		.then((hash) => {
+			const { email, password, username } = req.body;
+			pool.query(
+				'INSERT INTO users (email, password, username) VALUES ($1, $2, $3) RETURNING *',
+				[email, hash, username]
+			);
+		})
+		.then(() => {
+			res.status(201).json({
+				message: 'User added successfully!',
 			});
-	});
+		})
+		.catch((error) => {
+			res.status(500).json({
+				error: error,
+			});
+		});
 };
 
 exports.login = (req, res, next) => {
