@@ -45,11 +45,15 @@ exports.login = async (req, res, next) => {
               message: "Incorrect password!",
             });
           }
-          const token = jwt.sign({ userId: user._id }, "RANDOM_TOKEN_SECRET", {
-            expiresIn: "24h",
-          });
+          const token = jwt.sign(
+            { userId: user.user_id },
+            "RANDOM_TOKEN_SECRET",
+            {
+              expiresIn: "24h",
+            }
+          );
           res.status(200).json({
-            userId: user._id,
+            userId: user.user_id,
             token: token,
             message: "Login successful!",
           });
