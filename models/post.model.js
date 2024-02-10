@@ -1,32 +1,37 @@
 const sequelize = require("../database/db");
-const { Sequelize, DataTypes } = require("sequelize");
+const { Sequelize, DataTypes, Deferrable, Model } = require("sequelize");
+const User = require("./user.model");
 
 const Post = sequelize.define("post", {
-    
-  email: {
-    type: DataTypes.STRING,
+  post_id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+
+  user_id: {
+    type: DataTypes.INTEGER,
     allowNull: false,
-    unique: true,
+    references: {
+      model: User,
+      key: "user_id",
+      deferrable: Deferrable.INITIALLY_IMMEDIATE,
+    },
   },
   headline: {
     type: DataTypes.STRING,
     allowNull: false,
   },
   content: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false,
   },
-  likesCount: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    defaultValue: 0,
-},
-);
+});
 
 (async () => {
-  await User.sync();
+  await Post.sync();
 })();
 
-console.log(User === sequelize.models.User);
+console.log(Post === sequelize.models.Post);
 
-module.exports = User;
+module.exports = Post;
