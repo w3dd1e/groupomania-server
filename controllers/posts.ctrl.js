@@ -24,7 +24,9 @@ exports.createPost = async (req, res, next) => {
 
 exports.getOnePost = (req, res, next) => {
   Post.findOne({
-    _id: req.params.id,
+    where: {
+      post_id: req.params.id,
+    },
   })
     .then((post) => {
       res.status(200).json(post);
