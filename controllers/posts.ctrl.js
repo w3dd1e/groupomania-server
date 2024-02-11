@@ -1,20 +1,10 @@
 const Post = require("../models/post.model");
 
-exports.createPost = (req, res, next) => {
-  req.body.post = JSON.parse(req.body.post);
-  const url = req.protocol + "://" + req.get("host");
-  const post = new Post({
-    userId: req.body.post.userId,
-    name: req.body.post.name,
-    manufacturer: req.body.post.manufacturer,
-    description: req.body.post.description,
-    mainPepper: req.body.post.mainPepper,
-    imageUrl: url + "/images/" + req.file.filename,
-    heat: req.body.post.heat,
-    likes: 0,
-    dislikes: 0,
-    usersLiked: [],
-    usersDisliked: [],
+exports.createPost = async (req, res, next) => {
+  const post = await Post.create({
+    user_id: req.body.userId,
+    headline: req.body.headline,
+    content: req.body.content,
   });
   post
     .save()
@@ -27,7 +17,6 @@ exports.createPost = (req, res, next) => {
       res.status(400).json({
         error: error,
       });
-      console.log(post.imageUrl);
       console.log(error);
     });
 };
@@ -107,7 +96,7 @@ exports.deletePost = (req, res, next) => {
 };
 
 exports.getAllPosts = (req, res, next) => {
-  Post.find()
+  Post.findAll()
     .then((posts) => {
       res.status(200).json(posts);
     })
