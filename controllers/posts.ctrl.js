@@ -38,33 +38,11 @@ exports.getOnePost = (req, res, next) => {
     });
 };
 
-exports.updatePost = (req, res, next) => {
-  let post = new Post({ _id: req.params._id });
-  if (req.file) {
-    const url = req.protocol + "://" + req.get("host");
-    req.body.post = JSON.parse(req.body.post);
-    post = {
-      _id: req.params.id,
-      userId: req.body.post.userId,
-      name: req.body.post.name,
-      manufacturer: req.body.post.manufacturer,
-      description: req.body.post.description,
-      mainPepper: req.body.post.mainPepper,
-      imageUrl: url + "/images/" + req.file.filename,
-      heat: req.body.post.heat,
-    };
-  } else {
-    post = {
-      userId: req.body.userid,
-      name: req.body.name,
-      manufacturer: req.body.manufacturer,
-      description: req.body.description,
-      mainPepper: req.body.mainPepper,
-      imageUrl: req.body.imageUrl,
-      heat: req.body.heat,
-    };
-  }
-  Post.updateOne({ _id: req.params.id }, post)
+exports.updatePost = async (req, res, next) => {
+  await Post.update(
+    { headline: req.body.headline, content: req.body.content },
+    { where: { post_id: req.params.id } }
+  )
     .then(() => {
       res.status(201).json({
         message: "Post updated successfully!",
