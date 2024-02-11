@@ -1,5 +1,6 @@
 const Post = require("../models/post.model");
 
+//TODO GET USERID FROM JWT
 exports.createPost = async (req, res, next) => {
   const post = await Post.create({
     user_id: req.body.userId,
