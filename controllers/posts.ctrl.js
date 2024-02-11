@@ -1,9 +1,12 @@
 const Post = require("../models/post.model");
+const jwt = require("jsonwebtoken");
 
-//TODO GET USERID FROM JWT
 exports.createPost = async (req, res, next) => {
+  const token = req.headers.authorization.split(" ")[1];
+  const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
+  const userId = decodedToken.userId;
   const post = await Post.create({
-    user_id: req.body.userId,
+    user_id: userId,
     headline: req.body.headline,
     content: req.body.content,
   });
