@@ -55,25 +55,21 @@ exports.updatePost = async (req, res, next) => {
     });
 };
 
-exports.deletePost = (req, res, next) => {
-  Post.findOne({ _id: req.params.id }).then((post) => {
-    const filename = post.imageUrl.split("/images/")[1];
-    fs.unlink("images/" + filename, () => {
-      Post.deleteOne({ _id: req.params.id })
-        .then(() => {
-          res.status(200).json({
-            message: "Deleted!",
-          });
-        })
-        .catch((error) => {
-          console.log(error);
+exports.deletePost = async (req, res, next) => {
+  await Post.destroy({ where: { post_id: req.params.id } })
 
-          res.status(400).json({
-            error: error,
-          });
-        });
+    .then(() => {
+      res.status(200).json({
+        message: "Deleted!",
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+
+      res.status(400).json({
+        error: error,
+      });
     });
-  });
 };
 
 exports.getAllPosts = (req, res, next) => {
