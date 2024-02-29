@@ -1,7 +1,7 @@
 const sequelize = require("../database/db");
 const User = require("./user.model");
 
-const { Sequelize, DataTypes } = require("sequelize");
+const { Sequelize, DataTypes, Deferrable, Model } = require("sequelize");
 
 const Profile = sequelize.define("profile", {
   user_id: {
