@@ -8,6 +8,7 @@ const cors = require("cors");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users.rt");
 const postsRouter = require("./routes/posts.rt");
+const profileRouter = require("./routes/profiles.rt");
 
 const app = express();
 
@@ -42,6 +43,11 @@ app.get("/posts/:id", postsRouter);
 app.post("/posts", postsRouter);
 app.delete("/posts/:id", postsRouter);
 app.put("/posts/:id", postsRouter);
+
+app.get("/profile/:id", profileRouter);
+app.put("/profile/:id", profileRouter);
+app.delete("/profile/:id", profileRouter);
+
 // app.post("/posts/:id/like", likeRoutes);
 
 module.exports = app;
