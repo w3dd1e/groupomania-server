@@ -1,4 +1,4 @@
-const Profile = require("../models/profile.model");
+const Profile = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 
 exports.getProfile = (req, res, next) => {
@@ -7,8 +7,8 @@ exports.getProfile = (req, res, next) => {
       user_id: req.params.id,
     },
   })
-    .then((post) => {
-      res.status(200).json(post);
+    .then((profile) => {
+      res.status(200).json(profile);
     })
     .catch((error) => {
       res.status(404).json({

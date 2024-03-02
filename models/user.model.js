@@ -21,6 +21,32 @@ const User = sequelize.define("user", {
     allowNull: false,
     unique: true,
   },
+
+  firstName: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: "",
+  },
+  lastName: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: "",
+  },
+  department: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: "",
+  },
+  location: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: "",
+  },
+  bio: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+    defaultValue: "",
+  },
 });
 
 (async () => {
