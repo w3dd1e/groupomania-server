@@ -22,6 +22,12 @@ const User = sequelize.define("user", {
     unique: true,
   },
 
+  profileImage: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: "../public/images/newUserIcon.png",
+  },
+
   firstName: {
     type: DataTypes.STRING,
     allowNull: true,
