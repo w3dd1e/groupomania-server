@@ -4,6 +4,7 @@ const dotenv = require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
+const path = require("path");
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users.rt");
@@ -32,7 +33,7 @@ app.use((req, res, next) => {
   );
   next();
 });
-
+app.use("public/images", express.static(path.join(__dirname, "images")));
 app.use("/auth", usersRouter);
 
 app.use("/", indexRouter);
