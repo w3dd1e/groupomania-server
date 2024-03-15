@@ -32,7 +32,7 @@ app.use((req, res, next) => {
   );
   next();
 });
-
+app.use("public/images", express.static(path.join(__dirname, "images")));
 app.use("/auth", usersRouter);
 
 app.use("/", indexRouter);

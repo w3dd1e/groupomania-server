@@ -1,5 +1,6 @@
 const Profile = require("../models/user.model");
 const jwt = require("jsonwebtoken");
+const fs = require("fs");
 
 exports.getProfile = (req, res, next) => {
   Profile.findOne({
@@ -19,6 +20,7 @@ exports.getProfile = (req, res, next) => {
 
 exports.updateProfile = async (req, res, next) => {
   await Profile.update()
+
     .then(() => {
       res.status(201).json({
         message: "Profile updated successfully!",
