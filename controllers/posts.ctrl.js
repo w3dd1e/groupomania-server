@@ -1,4 +1,5 @@
 const Post = require('../models/post.model');
+const User = require('../models/user.model');
 const jwt = require('jsonwebtoken');
 
 exports.createPost = async (req, res, next) => {
@@ -26,10 +27,8 @@ exports.createPost = async (req, res, next) => {
 };
 
 exports.getOnePost = (req, res, next) => {
-	Post.findOne({
-		where: {
-			post_id: req.params.id,
-		},
+	Post.findByPk(req.params.id, {
+		include: [{ model: User, attributes: ['username', 'profileImage'] }],
 	})
 		.then((post) => {
 			res.status(200).json(post);
