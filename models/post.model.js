@@ -16,15 +16,15 @@ const Post = sequelize.define('post', {
 			key: 'user_id',
 			deferrable: Deferrable.INITIALLY_IMMEDIATE,
 		},
+	},
 
-		headline: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
-		content: {
-			type: DataTypes.TEXT,
-			allowNull: false,
-		},
+	headline: {
+		type: DataTypes.STRING,
+		allowNull: false,
+	},
+	content: {
+		type: DataTypes.TEXT,
+		allowNull: false,
 	},
 });
 
