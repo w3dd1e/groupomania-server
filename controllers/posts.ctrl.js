@@ -78,7 +78,7 @@ exports.deletePost = async (req, res, next) => {
 exports.getAllPosts = (req, res, next) => {
   Post.findAll({
     limit: 12,
-    order: ["createdAt"],
+    order: [["createdAt", "DESC"]],
     offset: req.query.offset,
     include: [{ model: User, attributes: ["username", "profileImage"] }],
   })
