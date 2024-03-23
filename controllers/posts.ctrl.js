@@ -75,7 +75,11 @@ exports.deletePost = async (req, res, next) => {
 };
 
 exports.getAllPosts = (req, res, next) => {
-	Post.findAll()
+	Post.findAll({
+		limit: 12,
+		offset: req.query.offset,
+		include: [{ model: User, attributes: ['username', 'profileImage'] }],
+	})
 		.then((posts) => {
 			res.status(200).json(posts);
 		})
