@@ -1,5 +1,6 @@
 const Post = require('../models/post.model');
 const User = require('../models/user.model');
+const Index = require('../models/index.model');
 const jwt = require('jsonwebtoken');
 
 exports.createPost = async (req, res, next) => {
