@@ -30,6 +30,7 @@ const Post = sequelize.define('post', {
 
 Post.belongsTo(User, {
 	foreignKey: { name: 'user_id', allowNull: false },
+	onDelete: 'CASCADE',
 });
 
 (async () => {
