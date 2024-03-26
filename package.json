@@ -14,9 +14,9 @@
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
-    "dotenv": "^16.4.1",
+    "dotenv": "^16.4.5",
     "drizzle-orm": "^0.30.4",
-    "eslint": "^8.56.0",
+    "eslint-plugin-drizzle": "^0.2.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
     "morgan": "~1.9.1",
@@ -29,6 +29,10 @@
   },
   "devDependencies": {
     "@types/pg": "^8.11.4",
-    "drizzle-kit": "^0.20.14"
+    "@typescript-eslint/eslint-plugin": "^7.4.0",
+    "@typescript-eslint/parser": "^7.4.0",
+    "drizzle-kit": "^0.20.14",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0"
   }
 }
