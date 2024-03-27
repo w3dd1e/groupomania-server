@@ -32,10 +32,18 @@ exports.getOnePost = async (req, res, next) => {
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
   const userId = decodedToken.userId;
   const readPost = await Model.ReadPost.findOne({
-    where: { userUserId: userId, postPostId: req.params.id },
+    where: {
+      userUserId: userId,
+      postPostId: req.params.id,
+    },
   });
   if (readPost === null) {
-    Model.ReadPost.create({ postPostId: req.params.id, userUserId: userId });
+    Model.ReadPost.create({
+      userUserId: userId,
+      user_id: userId,
+      post_id: req.params.id,
+      postPostId: req.params.id,
+    });
   }
   await Model.Post.findByPk(req.params.id, {
     include: [
@@ -90,19 +98,36 @@ exports.deletePost = async (req, res, next) => {
     });
 };
 
-exports.getAllPosts = (req, res, next) => {
-  Model.Post.findAll({
-    limit: 12,
-    order: [["createdAt", "DESC"]],
-    offset: req.query.offset,
-    include: [{ model: Model.User, attributes: ["username", "profileImage"] }],
-  })
-    .then((posts) => {
-      res.status(200).json(posts);
-    })
-    .catch((error) => {
-      res.status(400).json({
-        error: error,
-      });
+exports.getAllPosts = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization.split(" ")[1];
+    const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
+    const userId = decodedToken.userId;
+    const posts = await Model.Post.findAll({
+      limit: 12,
+      order: [["createdAt", "DESC"]],
+      offset: req.query.offset,
+      include: [
+        { model: Model.User, attributes: ["username", "profileImage"] },
+      ],
     });
+
+    const userReadPosts = await Model.ReadPost.findAll({
+      where: { user_id: userId },
+    });
+
+    const userReadPostIds = await new Set(
+      userReadPosts.map((readPost) => readPost.post_id)
+    );
+    // Modify each post object in the posts array to include read_status attribute
+    for (const post of posts) {
+      post.dataValues.read_status = userReadPostIds.has(post.post_id);
+    }
+
+    await res.status(200).json(posts);
+  } catch (error) {
+    res.status(400).json({
+      error: error,
+    });
+  }
 };
