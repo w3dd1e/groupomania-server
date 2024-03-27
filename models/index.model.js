@@ -1,7 +1,7 @@
 const sequelize = require("../database/db");
 const { Sequelize, DataTypes, Deferrable } = require("sequelize");
 
-//Definem users table
+//Define users table
 const User = sequelize.define("user", {
   user_id: {
     type: DataTypes.INTEGER,
@@ -96,8 +96,16 @@ Post.belongsTo(User, {
   onDelete: "CASCADE",
 });
 
-User.belongsToMany(Post, { through: { model: ReadPost, unique: false } });
-Post.belongsToMany(User, { through: { model: ReadPost, unique: false } });
+User.hasMany(ReadPost);
+ReadPost.belongsTo(User, {
+  foreignKey: { name: "user_id", allowNull: false },
+  onDelete: "CASCADE",
+});
+Post.hasMany(ReadPost);
+ReadPost.belongsTo(Post, {
+  foreignKey: { name: "post_id", allowNull: false },
+  onDelete: "CASCADE",
+});
 
 sequelize.sync({ alter: true });
 
