@@ -103,6 +103,7 @@ exports.getAllPosts = async (req, res, next) => {
     const token = req.headers.authorization.split(" ")[1];
     const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
     const userId = decodedToken.userId;
+    //Get all Posts
     const posts = await Model.Post.findAll({
       limit: 12,
       order: [["createdAt", "DESC"]],
@@ -111,11 +112,11 @@ exports.getAllPosts = async (req, res, next) => {
         { model: Model.User, attributes: ["username", "profileImage"] },
       ],
     });
-
+    //Get posts for of all post ids that user has read
     const userReadPosts = await Model.ReadPost.findAll({
       where: { user_id: userId },
     });
-
+    //Create set of user read post ids
     const userReadPostIds = await new Set(
       userReadPosts.map((readPost) => readPost.post_id)
     );
