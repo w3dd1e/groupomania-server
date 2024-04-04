@@ -3,13 +3,17 @@ const Model = require('../models/index.model');
 const jwt = require('jsonwebtoken');
 
 exports.createPost = async (req, res, next) => {
+	const url = req.protocol + '://' + req.get('host');
 	const token = req.headers.authorization.split(' ')[1];
 	const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
 	const userId = decodedToken.userId;
+	const image =
+		req.file !== undefined ? `${url}/images/${req.file.filename}` : null;
 	const post = await Model.Post.create({
 		user_id: userId,
 		headline: req.body.headline,
 		content: req.body.content,
+		profileImage: image,
 	});
 	post.save()
 		.then(() => {
@@ -64,10 +68,15 @@ exports.getOnePost = async (req, res, next) => {
 };
 
 exports.updatePost = async (req, res, next) => {
-	await Model.Post.update(
-		{ headline: req.body.headline, content: req.body.content },
-		{ where: { post_id: req.params.id } }
-	)
+	const updateFields = {
+		headline: req.body.headline,
+		content: req.body.content,
+	};
+	if (req.file) {
+		const url = req.protocol + '://' + req.get('host');
+		updateFields.imageUrl = `${url}/images/${req.file.filename}`;
+	}
+	await Model.Post.update(updateFields, { where: { post_id: req.params.id } })
 		.then(() => {
 			res.status(201).json({
 				message: 'Post updated successfully!',
