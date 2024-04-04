@@ -54,6 +54,10 @@ const User = sequelize.define('user', {
 		allowNull: true,
 		defaultValue: '',
 	},
+	imageUrl: {
+		type: DataTypes.STRING,
+		allowNull: true,
+	},
 });
 
 //Define posts table
@@ -79,7 +83,11 @@ const Post = sequelize.define('post', {
 	},
 	content: {
 		type: DataTypes.TEXT,
-		allowNull: false,
+		allowNull: true,
+	},
+	imageUrl: {
+		type: DataTypes.STRING,
+		allowNull: true,
 	},
 });
 
